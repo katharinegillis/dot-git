@@ -1,11 +1,7 @@
-# katharinegillis/git
-Just a bunch of dotfiles.
+# Git package
 
-## Install
-Clone and symlink or install with [ellipsis][ellipsis]:
+Handles git configurations.
 
-```
-$ ellipsis install katharinegillis/git
-```
+## Installation
 
-[ellipsis]: http://ellipsis.sh
+Installs via the [katharinegillis/dot-desktop](https://github.com/katharinegillis/dot-desktop).

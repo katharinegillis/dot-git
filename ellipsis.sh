@@ -1,24 +1,34 @@
 #!/usr/bin/env bash
-#
-# katharinegillis/git ellipsis package
 
-# The following hooks can be defined to customize behavior of your package:
-# pkg.install() {
-#     fs.link_files $PKG_PATH
-# }
+pkg.link() {
+    fs.link_files files
+}
 
-# pkg.push() {
-#     git.push
-# }
+git-configured() {
+    for key in user.name user.email github.user; do
+        if [ -z "$(git config --global $key | cat)"  ]; then
+            return 1
+        fi
+    done
+    return 0
+}
 
-# pkg.pull() {
-#     git.pull
-# }
+pkg.install() {
+    pkg.pull
+}
 
-# pkg.installed() {
-#     git.status
-# }
-#
-# pkg.status() {
-#     git.diffstat
-# }
+pkg.pull() {
+    echo -e "\e[32mUpdating git...\e[0m"
+
+    # Install git configuration
+    git.add_include '~/.gitinclude'
+
+    git.configured || cat <<\EOF
+You should set your email, name and github user for git with `git config`:
+    git config --global user.name "John Smith"
+    git config --global user.email "johnsmith@example.com"
+    git config --global github.user "johnsmith"
+EOF
+
+    echo -e "\e[32mDone git.\e[0m"
+}

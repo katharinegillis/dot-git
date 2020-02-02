@@ -1,0 +1,28 @@
+[alias]
+    b               = branch
+    ch              = checkout
+    cm              = commit
+    d               = diff
+    f               = fetch
+    s               = status
+    m               = merge
+    a               = add
+    cb              = checkout -b
+    ff              = merge --ff-only
+    p               = push
+    r               = remote
+    up              = !git remote update -p && git merge --ff-only @{u}
+    rup             = remote update -p
+
+[core]
+    autocrlf        = false
+    excludesfile    = ~/.cvsignore
+    whitespace      = trailing-space,space-before-tab
+    editor          = vim
+
+[color]
+    branch          = true
+    diff            = true
+    interactive     = true
+    status          = true
+    ui              = true
