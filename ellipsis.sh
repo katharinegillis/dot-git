@@ -4,22 +4,26 @@ pkg.link() {
     fs.link_files files
 }
 
-git-configured() {
-    for key in user.name user.email github.user; do
-        if [ -z "$(git config --global $key | cat)"  ]; then
-            return 1
-        fi
-    done
-    return 0
-}
-
 pkg.install() {
-    pkg.pull
+    # Configure git
+    configureGit
 }
 
 pkg.pull() {
-    echo -e "\e[32mUpdating git...\e[0m"
+    # Unlink old files
+    hooks.unlink
 
+    # Pull down package changes
+    git.pull
+
+    # Link files
+    pkg.link
+
+    # Configure git
+    configureGit
+}
+
+configureGit() {
     # Install git configuration
     git.add_include '~/.gitinclude'
 
@@ -29,6 +33,13 @@ You should set your email, name and github user for git with `git config`:
     git config --global user.email "johnsmith@example.com"
     git config --global github.user "johnsmith"
 EOF
+}
 
-    echo -e "\e[32mDone git.\e[0m"
+git.configured() {
+    for key in user.name user.email github.user; do
+        if [ -z "$(git config --global $key | cat)"  ]; then
+            return 1
+        fi
+    done
+    return 0
 }
