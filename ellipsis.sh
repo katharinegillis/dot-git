@@ -6,7 +6,7 @@ pkg.link() {
 
 pkg.install() {
     # Configure git
-    bash $PKG_PATH/run.sh
+    bash $PKG_PATH/run.sh "$ELLIPSIS_SRC"
 }
 
 pkg.pull() {
