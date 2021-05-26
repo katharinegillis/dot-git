@@ -1,5 +1,4 @@
-# Git package
-
+# katharinegillis/git
 Handles git configurations.
 
 ## Installation

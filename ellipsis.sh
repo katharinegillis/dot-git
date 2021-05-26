@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
 pkg.link() {
-    fs.link_files files
+    [ -d "$PKG_PATH/files" ] && fs.link_files $PKG_PATH/files
+    [ -d "$PKG_PATH/bin" ] && fs.link_rfiles $PKG_PATH/bin $HOME/bin
 }
 
 pkg.install() {
-    # Configure git
-    bash $PKG_PATH/run.sh "$ELLIPSIS_SRC"
+    [ -f "$PKG_PATH/install.sh" ] && bash $PKG_PATH/install.sh "$ELLIPSIS_SRC" "$PKG_PATH"
+
+    [ -f ".restart.lock" ] &&
+      echo "" &&
+      echo -e "\e[33mPlease restart the computer and then re-run the ellipsis command from a WSL prompt to continue the installation.\e[0m" &&
+      rm -rf .restart.lock &&
+      exit 1
 }
 
 pkg.pull() {
@@ -16,13 +22,28 @@ pkg.pull() {
         # Unlink old files
         hooks.unlink
 
-        # Pull down package changes
+        # Pull package changes
         git.pull
 
-        # Link files
+        # Link new files
         pkg.link
     fi
 
-    # Configure git
-    bash $PKG_PATH/run.sh "$ELLIPSIS_SRC"
+    [ -f "$PKG_PATH/update.sh" ] && bash $PKG_PATH/update.sh "$ELLIPSIS_SRC" "$PKG_PATH"
+
+    [ -f ".restart.lock" ] &&
+      echo "" &&
+      echo -e "\e[33mPlease restart the computer and then re-run the ellipsis command from a WSL prompt to continue the update.\e[0m" &&
+      rm -rf .restart.lock &&
+      exit 1
+}
+
+pkg.uninstall() {
+    [ -f "$PKG_PATH/uninstall.sh" ] && bash $PKG_PATH/uninstall.sh "$ELLIPSIS_SRC" "$PKG_PATH"
+
+    [ -f ".restart.lock" ] &&
+      echo "" &&
+      echo -e "\e[33mPlease restart the computer and then re-run the ellipsis command from a WSL prompt to continue the uninstall.\e[0m" &&
+      rm -rf .restart.lock &&
+      exit 1
 }
