@@ -6,13 +6,16 @@ pkg.link() {
 }
 
 pkg.install() {
+echo "blah1"
     [ -f "$PKG_PATH/install.sh" ] && bash $PKG_PATH/install.sh "$ELLIPSIS_SRC" "$PKG_PATH"
+    echo "blah2"
 
     [ -f ".restart.lock" ] &&
       echo "" &&
       echo -e "\e[33mPlease restart the computer and then re-run the ellipsis command from a WSL prompt to continue the installation.\e[0m" &&
       rm -rf .restart.lock &&
       exit 1
+      echo "blah3"
 }
 
 pkg.pull() {
