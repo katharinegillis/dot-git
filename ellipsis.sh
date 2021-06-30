@@ -5,26 +5,4 @@ if [ ! -d "$PKG_PATH/../common" ]; then
     exit 1
 fi
 
-source "$PKG_PATH/../common/common.sh"
-
-softDependencies=(
-    vim
-);
-
-common_soft_dependencies_check "${softDependencies[*]}"
-
-pkg.link() {
-    common_link
-}
-
-pkg.install() {
-    common_install
-}
-
-pkg.pull() {
-    common_pull
-}
-
-pkg.uninstall() {
-    common_uninstall
-}
+source "$PKG_PATH/../common/common_ellipsis.sh"
