@@ -7,3 +7,7 @@ for key in user.name user.email github.user; do
         git config --global $key "$var"
     fi
 done
+
+if [ -z "$(git config --global include.path | cat)" ]; then
+    git config --global include.path ".gitinclude"
+fi
